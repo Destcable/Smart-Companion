@@ -2,6 +2,7 @@ import os
 import pyaudio
 import speech_recognition as sr
 import pyttsx3
+import pyglet
 
 def recognizeSpeech():
     recognizer = sr.Recognizer()
@@ -21,6 +22,14 @@ def recognizeSpeech():
         print("Ошибка")
         return None
 
+def playSpeakAudio():
+    mus = pyglet.resource.media("audio/active.mp3")
+    mus.play()
+
+def playSuccessAudio():
+    mus = pyglet.resource.media("audio/success.mp3")
+    mus.play()
+
 def speakText(message):
 
     # Используем воспроизведение для Windows
@@ -32,10 +41,13 @@ def speakText(message):
     engine.runAndWait()
 
 if __name__ == "__main__":
-    speakText("Слушаю")
-    recognized_text = recognizeSpeech()
+    while True:
+        recognized_text = recognizeSpeech()
+        if (recognized_text == "Привет"):
+            speakText("Слушаю")
+            playSpeakAudio()
+            recordTask = recognizeSpeech()
 
-    if (recognized_text):
-        speakText(recognized_text)
-        pass
-
+            if (recordTask):
+                playSuccessAudio()
+                speakText(recordTask)

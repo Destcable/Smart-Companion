@@ -26,9 +26,9 @@ def playSpeakAudio():
     mus = pyglet.resource.media("active.mp3")
     mus.play()
 
-# def playSuccessAudio():
-#     mus = pyglet.resource.media("audio/success.mp3")
-#     mus.play()
+def playSuccessAudio():
+    mus = pyglet.resource.media("success.mp3")
+    mus.play()
 
 def speakText(message):
 
@@ -41,10 +41,13 @@ def speakText(message):
     engine.runAndWait()
 
 if __name__ == "__main__":
-    speakText("Слушаю")
-    playSpeakAudio()
-    recognized_text = recognizeSpeech()
+    while True:
+        recognized_text = recognizeSpeech()
+        if (recognized_text == "Привет"):
+            speakText("Слушаю")
+            playSpeakAudio()
+            recordTask = recognizeSpeech()
 
-    # if (recognized_text):
-    #     playSuccessAudio()
-    #     speakText(recognized_text)
+            if (recordTask):
+                playSuccessAudio()
+                speakText(recordTask)
